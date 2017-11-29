@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.mapper.GameMapper">
+
+    <resultMap id="gameinfoRM" type="GameInfo" autoMapping="true">
+        <id column="info_id" property="infoId"/>
+        <result column="info_intro" property="introduction"/>
+        <association property="game" javaType="Game">
+            <id column="g_id" property="gId"/>
+            <result column="g_class" property="gClass"/>
+            <result column="g_name" property="gName"/>
+        </association>
+    </resultMap>
+
+    <select id="findOneGameInfo" resultMap="gameinfoRM">
+        SELECT
+          gi.info_intro,gl.g_name,gl.g_class,gl.g_id
+        FROM
+          game_info gi
+        LEFT JOIN
+          game gl
+        ON
+          gi.g_id=gl.g_id where gi.g_id=#{gId}
+    </select>
+
+
+</mapper>

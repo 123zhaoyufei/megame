@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.mapper.CommentMapper">
+
+    <resultMap id="commRM" type="Comment">
+        <id column="c_id" property="cId"/>
+        <result column="c_time" property="time"/>
+        <result column="c_score" property="score"/>
+        <result column="c_content" property="content"/>
+    </resultMap>
+
+    <select id="findAllGame" resultMap="commRM">
+        SELECT * FROM game_comment
+        WHERE info_id=(SELECT info_id FROM game_info WHERE g_id=#{gId})
+    </select>
+    <select id="findAllUser" resultMap="commRM">
+        SELECT * FROM game_comment
+        WHERE c_user_id=#{userId}
+    </select>
+</mapper>

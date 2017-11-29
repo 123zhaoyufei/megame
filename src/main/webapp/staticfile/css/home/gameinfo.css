@@ -1,0 +1,17 @@
+.fragment div,ul,li,a,span,img{margin:0;padding:0;}
+.fragment div ul li{list-style:none;}
+#slider1{width:638px;height:357px;margin:auto;position:relative;}
+.slider_list1 li{position:absolute;display:none;}
+.slider_list1 li:first-child{display:block;}
+.slider_icon1{position:absolute;z-index:1;left:40%;bottom:20px;font-size:0;padding:4px 8px;border-radius:12px;background-color:hsla(0,0%,100%,.3);}
+.slider_icon1 i{display:inline-block;width:12px;height:12px;border-radius:50%;margin:0 5px;}
+.btn1{background:#fff;}
+.arrow1{display:none;width:30px;height:60px;background-color:rgba(0,0,0,.2);position:absolute;top:80%;margin-top:-30px;}
+.prve1{left:0;}
+.next1{right:0;}
+.arrow1 span{display:block;width:10px;height:10px;border-bottom:2px solid #fff;border-left:2px solid #fff;}
+.slider_left1{margin:25px 0 0 10px;transform:rotate(45deg);}
+.slider_right1{margin:25px 0 0 5px;transform:rotate(-135deg);}
+.arrow1:hover{background:#444;}
+#slider1:hover .arrow1{display:block;}
+.btn_act1{background:#db192a;}

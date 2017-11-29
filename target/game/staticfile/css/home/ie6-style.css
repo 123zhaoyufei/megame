@@ -1,0 +1,4 @@
+#slider .frame { background-image: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='staticfile/images/home/slider-image-bg.png', sizingMethod='image'); }
+
+#slider .buttons span.prev { background-image: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/staticfile/images/home/button-prev.png', sizingMethod='image'); }
+#slider .buttons span.next { background-image: none; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/staticfile/images/home/button-next.png', sizingMethod='image'); }

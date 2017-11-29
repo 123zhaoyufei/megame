@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.mapper.GameMapper">
+	<resultMap id="gameRM" type="GameInfo">
+		<id column="info_id" property="infoId"/>
+		<result column="info_intro" property="introduction"/>
+		<result column="info_video" property="video"/>
+		<association property="game" javaType="Game">
+			<id column="g_id" property="gId"/>
+			<result column="g_name" property="gName"/>
+			<result column="g_class" property="gClass"/>
+			<result column="g_score" property="gScore"/>
+			<result column="g_pic" property="gPic"/>
+		</association>
+		<collection property="comments" ofType="Comment">
+			<id column="c_id" property="cId"/>
+			<result column="c_time" property="time"/>
+			<result column="c_score" property="score"/>
+			<result column="c_content" property="content"/>
+			<association property="user" javaType="User">
+				<id column="user_id" property="userId"/>
+				<result column="user_name" property="name"/>
+				<result column="user_username" property="username"/>
+			</association>
+		</collection>
+		<collection property="pictures" ofType="Picture">
+			<id column="pic_id" property="picId"/>
+			<result column="pic_path" property="picPath"/>
+		</collection>
+	</resultMap>
+	<select id="findOne" resultMap="gameRM">
+		SELECT gd.g_id,gd.info_intro,gd.info_video,gd.info_id,gd.pic_id,gd.pic_path,gd.c_content,gd.c_time,gd.c_score,gd.c_user_id,gd.user_name,gl.g_name,gl.g_score,gl.g_pic FROM
+		(SELECT gb.g_id,gb.info_intro,gb.info_video,gb.info_id,gb.pic_id,gb.pic_path,gb.c_content,gb.c_time,gb.c_score,gb.c_user_id,u.user_name FROM
+		(SELECT ga.g_id,ga.info_intro,ga.info_video,ga.info_id,ga.pic_id,ga.pic_path,gc.c_content,gc.c_time,gc.c_score,gc.c_user_id FROM
+		(SELECT gi.g_id,gi.info_intro,gi.info_video,gi.info_id,ip.pic_id,ip.pic_path FROM game_info gi
+		LEFT JOIN info_pic ip
+		ON gi.info_id = ip.info_id) ga
+		LEFT JOIN game_comment gc
+		ON ga.info_id = gc.info_id) gb
+		LEFT JOIN user u
+		ON gb.c_user_id = u.user_id) gd
+		LEFT JOIN game gl
+		ON gl.g_id = gd.g_id WHERE  gd.g_id = #{gId}
+	</select>
+
+	<select id="findAllGames" resultType="Game">
+		SELECT * FROM game WHERE g_class=#{gClass}
+	</select>
+
+	<resultMap id="comRM" type="GameInfo">
+		<id column="info_id" property="infoId"/>
+		<result column="info_intro" property="introduction"/>
+		<result column="info_video" property="video"/>
+		<collection property="comments" ofType="Comment">
+			<id column="c_id" property="cId"/>
+			<result column="c_time" property="time"/>
+			<result column="c_score" property="score"/>
+			<result column="c_content" property="content"/>
+			<association property="user" javaType="User">
+				<id column="user_id" property="userId"/>
+				<result column="user_name" property="name"/>
+				<result column="user_username" property="username"/>
+			</association>
+		</collection>
+	</resultMap>
+	<select id="findCom" resultMap="comRM">
+		select ga.c_content,ga.c_time,ga.info_id,u.user_name FROM (select gc.c_content,gc.c_time,gc.c_user_id,gi.info_id from  game_comment gc
+		LEFT JOIN game_info gi
+		ON gi.info_id = gc.info_id)ga
+		LEFT JOIN user u
+		ON ga.c_user_id = u.user_id where ga.info_id = #{infoId} ORDER BY c_time DESC
+	</select>
+	<resultMap id="picRM" type="GameInfo">
+		<id column="info_id" property="infoId"/>
+		<result column="info_intro" property="introduction"/>
+		<result column="info_video" property="video"/>
+		<association property="game" javaType="Game">
+			<id column="g_id" property="gId"/>
+			<result column="g_name" property="gName"/>
+			<result column="g_class" property="gClass"/>
+			<result column="g_score" property="gScore"/>
+			<result column="g_pic" property="gPic"/>
+		</association>
+	</resultMap>
+	<select id="findPic" resultMap="picRM">
+		select g.g_pic,gi.info_id from game g
+		LEFT JOIN game_info gi
+		ON g.g_id=gi.g_id
+	</select>
+
+
+</mapper>
